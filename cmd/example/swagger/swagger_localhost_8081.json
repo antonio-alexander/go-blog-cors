@@ -1,0 +1,216 @@
+{
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "schemes": ["http", "https"],
+  "swagger": "2.0",
+  "info": {
+    "description": "These endpoints are provided as a proof of concept for CORS issues.",
+    "title": "go-blog-cors",
+    "contact": {
+      "name": "antonio-alexander",
+      "url": "http://antonio-alexander.dev",
+      "email": "antonio-alexandere@antonio-alexander.dev"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0"
+  },
+  "host": "localhost:8081",
+  "basePath": "/",
+  "paths": {
+    "/": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
+        "summary": "Returns \"Hello, World!\".",
+        "operationId": "hello_world",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/HelloWorldGetResponseOk"
+          }
+        }
+      }
+    },
+    "/authorize": {
+      "post": {
+        "security": [
+          {
+            "SecurityDefinitions": []
+          },
+          {
+            "basic": []
+          },
+          {
+            "type": ["basic"]
+          }
+        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
+        "summary": "Approximates a basic authorization endpoint.",
+        "operationId": "authorize",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/AuthorizePostResponseOK"
+          },
+          "401": {
+            "$ref": "#/responses/AuthorizePostResponseNotAuthorized"
+          },
+          "500": {
+            "$ref": "#/responses/AuthorizePostResponseError"
+          }
+        }
+      }
+    },
+    "/proxy": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
+        "summary": "And endpoint that will proxy to another endpoint.",
+        "operationId": "proxy_get",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Endpoint",
+            "name": "endpoint",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ProxyGetResponseOK"
+          },
+          "500": {
+            "$ref": "#/responses/ProxyGetResponseError"
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "SecurityDefinitions": []
+          },
+          {
+            "basic": []
+          },
+          {
+            "type": ["basic"]
+          }
+        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
+        "summary": "And endpoint that will proxy to another endpoint.",
+        "operationId": "proxy_post",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Endpoint",
+            "name": "endpoint",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ProxyPostResponseOK"
+          },
+          "500": {
+            "$ref": "#/responses/ProxyPostResponseError"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "description": "Error is used to communciate an error in json format",
+      "type": "object",
+      "properties": {
+        "error": {
+          "description": "an error",
+          "type": "string",
+          "x-go-name": "Error",
+          "example": "Unspecified error has occurred"
+        },
+        "status_code": {
+          "description": "the status code of the error",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "StatusCode",
+          "example": 500
+        }
+      },
+      "x-go-package": "github.com/antonio-alexander/go-blog-cors/internal"
+    },
+    "Message": {
+      "description": "Message is used to transport strings in json format for a given message",
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "a message",
+          "type": "string",
+          "x-go-name": "Message",
+          "example": "Hello, World!"
+        }
+      },
+      "x-go-package": "github.com/antonio-alexander/go-blog-cors/internal"
+    }
+  },
+  "responses": {
+    "AuthorizePostResponseError": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "AuthorizePostResponseNotAuthorized": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "AuthorizePostResponseOK": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "HelloWorldGetResponseOk": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Message"
+      }
+    },
+    "ProxyGetResponseError": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "ProxyGetResponseOK": {
+      "description": ""
+    },
+    "ProxyPostResponseError": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "ProxyPostResponseOK": {
+      "description": ""
+    }
+  },
+  "securityDefinitions": {
+    "basic": {
+      "type": "basic"
+    }
+  }
+}

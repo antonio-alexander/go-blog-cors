@@ -1,0 +1,89 @@
+version: "3"
+
+services:
+
+  example:
+    container_name: "example"
+    hostname: "example"
+    image: ghcr.io/antonio-alexander/go-blog-cors-example:latest
+    restart: "always"
+    ports:
+      - "8081:8080"
+    build:
+      context: ./
+      dockerfile: ./cmd/example/Dockerfile
+      args:
+        PLATFORM: linux/amd64
+        GO_ARCH: amd64
+        # GO_ARCH: arm
+        # GO_ARM: 7
+    environment:
+      ADDRESS: example
+      PORT: "8080"
+      USERNAME: ${USERNAME}
+      PASSWORD: ${PASSWORD}
+      PROXY_ADDRESS: ${PROXY_ADDRESS}
+      PROXY_PORT: ${PROXY_PORT}
+      CORS: ${CORS}
+      CORS_DEBUG: ${CORS_DEBUG}
+      ALLOW_CREDENTIALS: ${ALLOW_CREDENTIALS}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+      ALLOWED_METHODS: ${ALLOWED_METHODS}
+      ALLOWED_HEADERS: ${ALLOWED_HEADERS}
+
+  example_proxy:
+    container_name: "example_proxy"
+    hostname: "example_proxy"
+    image: ghcr.io/antonio-alexander/go-blog-cors-example:latest
+    restart: "always"
+    ports:
+      - "8082:8080"
+    build:
+      context: ./
+      dockerfile: ./cmd/example/Dockerfile
+      args:
+        PLATFORM: linux/amd64
+        GO_ARCH: amd64
+        # GO_ARCH: arm
+        # GO_ARM: 7
+    environment:
+      ADDRESS: example_proxy
+      PORT: "8080"
+      USERNAME: ${USERNAME}
+      PASSWORD: ${PASSWORD}
+      CORS: ${CORS}
+      CORS_DEBUG: ${CORS_DEBUG}
+      ALLOW_CREDENTIALS: ${PROXY_ALLOW_CREDENTIALS}
+      ALLOWED_ORIGINS: ${PROXY_ALLOWED_ORIGINS}
+      ALLOWED_METHODS: ${PROXY_ALLOWED_METHODS}
+      ALLOWED_HEADERS: ${PROXY_ALLOWED_HEADERS}
+
+  swagger:
+    container_name: "swagger"
+    hostname: "swagger"
+    image: swaggerapi/swagger-ui:v4.12.0
+    restart: "always"
+    ports:
+      - "8083:8080"
+    environment:
+      URLS: "[{ url: \"./api/swagger_localhost_8081.json\", name: \"go-blog-cors(example)\" },{ url: \"./api/swagger_localhost_8080.json\", name: \"go-blog-cors(nginx)\" }]"
+    volumes:
+      - ./cmd/example/swagger/swagger_localhost_8080.json:/usr/share/nginx/html/api/swagger_localhost_8080.json
+      - ./cmd/example/swagger/swagger_localhost_8081.json:/usr/share/nginx/html/api/swagger_localhost_8081.json
+
+  nginx:
+    container_name: "nginx"
+    hostname: "nginx"
+    image: nginx:1.21.6-alpine
+    restart: "always"
+    depends_on:
+      example:
+        condition: service_started
+      example_proxy:
+        condition: service_started
+      swagger:
+        condition: service_started
+    ports:
+      - "8080:80"
+    volumes:
+      - ${NGINX_CONFIG_FILE}:/etc/nginx/conf.d/default.conf
