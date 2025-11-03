@@ -1,14 +1,7 @@
 {
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "schemes": ["http", "https"],
   "swagger": "2.0",
   "info": {
     "description": "These endpoints are provided as a proof of concept for CORS issues.",
@@ -29,19 +22,10 @@
   "paths": {
     "/": {
       "get": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "tags": [
-          "cors"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
         "summary": "Returns \"Hello, World!\".",
         "operationId": "hello_world",
         "responses": {
@@ -53,32 +37,10 @@
     },
     "/authorize": {
       "post": {
-        "security": [
-          {
-            "SecurityDefinitions": []
-          },
-          {
-            "basic": []
-          },
-          {
-            "type": [
-              "basic"
-            ]
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "tags": [
-          "cors"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
         "summary": "Approximates a basic authorization endpoint.",
         "operationId": "authorize",
         "responses": {
@@ -96,19 +58,10 @@
     },
     "/proxy": {
       "get": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "tags": [
-          "cors"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
         "summary": "And endpoint that will proxy to another endpoint.",
         "operationId": "proxy_get",
         "parameters": [
@@ -129,32 +82,10 @@
         }
       },
       "post": {
-        "security": [
-          {
-            "SecurityDefinitions": []
-          },
-          {
-            "basic": []
-          },
-          {
-            "type": [
-              "basic"
-            ]
-          }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "schemes": [
-          "http",
-          "https"
-        ],
-        "tags": [
-          "cors"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
         "summary": "And endpoint that will proxy to another endpoint.",
         "operationId": "proxy_post",
         "parameters": [
@@ -171,6 +102,56 @@
           },
           "500": {
             "$ref": "#/responses/ProxyPostResponseError"
+          }
+        }
+      }
+    },
+    "/redirect": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
+        "summary": "And endpoint that will redirect to another endpoint.",
+        "operationId": "redirect_get",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Endpoint",
+            "name": "endpoint",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RedirectGetResponseOK"
+          },
+          "500": {
+            "$ref": "#/responses/RedirectGetResponseError"
+          }
+        }
+      },
+      "post": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
+        "summary": "And endpoint that will redirect to another endpoint.",
+        "operationId": "redirect_post",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Endpoint",
+            "name": "endpoint",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RedirectPostResponseOK"
+          },
+          "500": {
+            "$ref": "#/responses/RedirectPostResponseError"
           }
         }
       }
@@ -252,6 +233,24 @@
       }
     },
     "ProxyPostResponseOK": {
+      "description": ""
+    },
+    "RedirectGetResponseError": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "RedirectGetResponseOK": {
+      "description": ""
+    },
+    "RedirectPostResponseError": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "RedirectPostResponseOK": {
       "description": ""
     }
   },

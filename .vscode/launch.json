@@ -17,6 +17,8 @@
                 "PORT": "8080",
                 "PROXY_ADDRESS": "localhost",
                 "PROXY_PORT": "8082",
+                "REDIRECT_ADDRESS": "localhost",
+                "REDIRECT_PORT": "8082",
                 "CORS": "cors",
                 "CORS_DEBUG": "true",
                 "USERNAME": "username",

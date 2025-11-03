@@ -37,17 +37,6 @@
     },
     "/authorize": {
       "post": {
-        "security": [
-          {
-            "SecurityDefinitions": []
-          },
-          {
-            "basic": []
-          },
-          {
-            "type": ["basic"]
-          }
-        ],
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "schemes": ["http", "https"],
@@ -93,17 +82,6 @@
         }
       },
       "post": {
-        "security": [
-          {
-            "SecurityDefinitions": []
-          },
-          {
-            "basic": []
-          },
-          {
-            "type": ["basic"]
-          }
-        ],
         "consumes": ["application/json"],
         "produces": ["application/json"],
         "schemes": ["http", "https"],
@@ -124,6 +102,56 @@
           },
           "500": {
             "$ref": "#/responses/ProxyPostResponseError"
+          }
+        }
+      }
+    },
+    "/redirect": {
+      "get": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
+        "summary": "And endpoint that will redirect to another endpoint.",
+        "operationId": "redirect_get",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Endpoint",
+            "name": "endpoint",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RedirectGetResponseOK"
+          },
+          "500": {
+            "$ref": "#/responses/RedirectGetResponseError"
+          }
+        }
+      },
+      "post": {
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "schemes": ["http", "https"],
+        "tags": ["cors"],
+        "summary": "And endpoint that will redirect to another endpoint.",
+        "operationId": "redirect_post",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Endpoint",
+            "name": "endpoint",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RedirectPostResponseOK"
+          },
+          "500": {
+            "$ref": "#/responses/RedirectPostResponseError"
           }
         }
       }
@@ -205,6 +233,24 @@
       }
     },
     "ProxyPostResponseOK": {
+      "description": ""
+    },
+    "RedirectGetResponseError": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "RedirectGetResponseOK": {
+      "description": ""
+    },
+    "RedirectPostResponseError": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "RedirectPostResponseOK": {
       "description": ""
     }
   },

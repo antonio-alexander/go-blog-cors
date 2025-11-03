@@ -11,6 +11,8 @@ const (
 	EnvNamePort             string = "PORT"
 	EnvNameProxyAddress     string = "PROXY_ADDRESS"
 	EnvNameProxyPort        string = "PROXY_PORT"
+	EnvNameRedirectAddress  string = "REDIRECT_ADDRESS"
+	EnvNameRedirectPort     string = "REDIRECT_PORT"
 	EnvNameAllowCredentials string = "ALLOW_CREDENTIALS"
 	EnvNameAllowedOrigins   string = "ALLOWED_ORIGINS"
 	EnvNameAllowedMethods   string = "ALLOWED_METHODS"
@@ -19,10 +21,12 @@ const (
 	EnvNameUsername         string = "USERNAME"
 	EnvNamePassword         string = "PASSWORD"
 	EnvNameCors             string = "CORS"
+	EnvNameCorsOrigin       string = "CORS_ORIGIN"
 )
 
 var (
-	configAddress          string = ""
+	configCorsOrigin       string = "http://localhost:10000"
+	configAddress          string = "localhost"
 	configPort             string = "8080"
 	configUsername         string = "username"
 	configPassword         string = "password"
@@ -31,6 +35,8 @@ var (
 	configCors             string = ""
 	configProxyAddress     string = ""
 	configProxyPort        string = ""
+	configRedirectAddress  string = ""
+	configRedirectPort     string = ""
 	configAllowedMethods          = []string{}
 	configAllowedHeaders          = []string{}
 	configAllowedOrigins          = []string{}
@@ -48,6 +54,12 @@ func configFromEnvs(envs map[string]string) {
 	}
 	if _, ok := envs[EnvNameProxyPort]; ok {
 		configProxyPort = envs[EnvNameProxyPort]
+	}
+	if _, ok := envs[EnvNameRedirectAddress]; ok {
+		configRedirectAddress = envs[EnvNameRedirectAddress]
+	}
+	if _, ok := envs[EnvNameRedirectPort]; ok {
+		configRedirectPort = envs[EnvNameRedirectPort]
 	}
 	if s, ok := envs[EnvNameAllowedOrigins]; ok && s != "" {
 		configAllowedOrigins = strings.Split(s, ",")
@@ -72,6 +84,9 @@ func configFromEnvs(envs map[string]string) {
 	}
 	if _, ok := envs[EnvNameCorsDebug]; ok {
 		configCorsDebug, _ = strconv.ParseBool(envs[EnvNameCorsDebug])
+	}
+	if _, ok := envs[EnvNameCorsOrigin]; ok {
+		configCorsOrigin = envs[EnvNameCorsOrigin]
 	}
 }
 
