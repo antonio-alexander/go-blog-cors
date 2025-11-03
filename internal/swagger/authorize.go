@@ -14,7 +14,7 @@ import (
 //     - application/json
 //
 //     Security:
-//     - basic
+//       basic:
 //
 //     Schemes: http, https
 //

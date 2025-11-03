@@ -12,7 +12,7 @@ import "github.com/antonio-alexander/go-blog-cors/internal"
 //     - application/json
 //
 //     Security:
-//     - basic
+//       basic:
 //
 //     Schemes: http, https
 //
